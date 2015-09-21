@@ -9,8 +9,8 @@ npm install --save-dev gulp gulp-easy
 ## Tasks and production mode
 
 Module gulp-easy export two public tasks:
-- `default` for developer (with watch and without compress);
-- `production` for production builds.
+* `default` for developer (with watch and without compress);
+* `production` for production builds.
 
 Also you can append argument `--production` for production builds:
 
@@ -75,9 +75,9 @@ Full default config:
 
 Most minimalistic gulp file. Default file name is `app`, default destination dir is `public`.
 The task performs:
-1. Compile `less/index.less` file with it imports to css `public/app.css`.
-2. Concat and compile as common js all javascript files from folder `js` to file `public/app.js`.
-3. Copy all files from folder `images` (recursive) to folder `public/images`.
+- Compile `less/index.less` file with it imports to css `public/app.css`.
+- Concat and compile as common js all javascript files from folder `js` to file `public/app.js`.
+- Copy all files from folder `images` (recursive) to folder `public/images`.
 
 ```js
 require('gulp-easy')
@@ -88,8 +88,8 @@ require('gulp-easy')
 
 Normal gulp file without defaults.
 The task performs:
-1. Concat and compile less files `less/header.less`, `less/header.less` to css `app/public/style.css`. Destination folder specified in config.
-2. Compile as common js file `js/index.js` to file `app/public/lib/main.js`.
+- Concat and compile less files `less/header.less`, `less/header.less` to css `app/public/style.css`. Destination folder specified in config.
+- Compile as common js file `js/index.js` to file `app/public/lib/main.js`.
 
 ```js
 require('gulp-easy')
