@@ -53,7 +53,7 @@ require('gulp-easy')
 
 Full default config:
 
-```json
+```js
     {
         dest: 'public', // destination folder
         name: 'app', // default destination file name
