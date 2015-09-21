@@ -1,0 +1,46 @@
+{
+  "name": "gulp-easy",
+  "version": "0.1.0",
+  "description": "Npm package for fast and easy compile js, less and other files with gulp.",
+  "main": "index-es5.js",
+  "author": "Vladimir Kozhin <affka@affka.ru>",
+  "scripts": {
+    "test": "nodeunit tests/unit",
+    "es6": "node node_modules/watchify/bin/cmd.js index.js -t babelify -o index-es5.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/affka/gulp-easy"
+  },
+  "keywords": [
+    "gulp",
+    "less",
+    "js"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/affka/gulp-easy",
+  "bugs": {
+    "url": "https://github.com/affka/gulp-easy/issues"
+  },
+  "dependencies": {
+    "babel": "^5.8.23",
+    "babelify": "^6.3.0",
+    "browserify": "^11.1.0",
+    "glob": "^5.0.14",
+    "gulp-less": "^3.0.3",
+    "gulp-minify-css": "^1.2.1",
+    "gulp-plumber": "^1.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^1.5.2",
+    "gulp-uglify": "^1.4.1",
+    "gulp-util": "^3.0.6",
+    "gulp-watch-less": "^1.0.1",
+    "lodash": "^3.10.1",
+    "stringify": "^3.1.0",
+    "through2": "^2.0.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.4.0",
+    "yargs": "^3.25.0"
+  }
+}
