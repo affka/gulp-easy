@@ -7,6 +7,7 @@ import yargs from 'yargs';
 import Files from './task/Files';
 import Less from './task/Less';
 import Js from './task/Js';
+import Inline from './task/Inline';
 
 export default class Manager {
 
@@ -33,7 +34,9 @@ export default class Manager {
 
         // Do not exit on exceptions
         if (!this._isProduction) {
-            process.on('uncaughtException', console.error.bind(console));
+            process.on('uncaughtException', function(e) {
+                console.error(e.stack || String(e));
+            });
         }
     }
 
@@ -109,6 +112,22 @@ export default class Manager {
         return this;
     }
 
+    /**
+     *
+     * @param {function} taskHandler
+     * @param {function} [watchHandler]
+     * @returns {self}
+     */
+    task(taskHandler, watchHandler) {
+        var task = new Inline();
+        task.taskHandler = taskHandler;
+        task.watchHandler = watchHandler || null;
+        task.name = this._getTaskName('task');
+        this._runTask(task);
+
+        return this;
+    }
+
     _getTaskName(name) {
         name = '_' + name;
         if (this._names.indexOf(name) !== -1) {
@@ -118,6 +137,8 @@ export default class Manager {
                 name = name + '2';
             }
         }
+
+        this._names.push(name);
         return name;
     }
 

@@ -79,6 +79,7 @@ Normal gulp file without defaults.
 The task performs:
 - Concat and compile less files `less/header.less`, `less/header.less` to css `app/public/style.css`. Destination folder specified in config.
 - Compile as common js file `js/index.js` to file `app/public/lib/main.js`.
+- Run custom task for copy all files from folder `images` to folder `public/images2`.
 
 ```js
 require('gulp-easy')
@@ -87,12 +88,18 @@ require('gulp-easy')
     })
     .less(['less/header.less', 'less/main.less'], 'style.css')
     .js('js/index.js', 'app/public/lib/main.js')
+    .task(function(gulp, taskName, isCompress, isWatch) {
+        gulp.src(['images/*']).pipe(gulp.dest('public/images2/'));
+    }, function(gulp, taskName, isCompress) {
+        gulp.watch(['images/*'], [taskName]);
+    })
 ```
 
 ## Methods api
 
 ### js(src, dest, config)
 
+Compile javascript files to bundle
 - `src`: string or array strings, glob format;
 - `dest`: (optional) string file name or path to destination (output) file;
 - `config`: (optional) custom configuration object. Default configuration is:
@@ -114,6 +121,7 @@ Method do:
 
 ### less(src, dest, config)
 
+Compile less to css
 - `src`: string or array strings, glob format;
 - `dest`: (optional) string file name or path to destination (output) file;
 - `config`: (optional) custom configuration object. Default configuration is:
@@ -136,8 +144,21 @@ Method do:
 
 ### files(src, dest)
 
+Copy files
 - `src`: string or array strings, glob format;
 - `dest`: (optional) string file name or path to destination (output) file;
 
 Method do:
 - copy source files to destination folder
+
+### task(taskHandler, watchHandler)
+
+Add custom task
+- `taskHandler(gulp, taskName, isCompress, isWatch`: custom function for create gulp task;
+- `watchHandler(gulp, taskName, isCompress)`: (optional) custom function for watch on sources;
+
+Handlers arguments:
+- `gulp`: gulp instance
+- `taskName`: string, auto generated task name (in format `_taskXX`). Use it for run task on watch
+- `isCompress`: boolean, see `compress` param in config section
+- `isWatch`: boolean, see `watch` param in config section
