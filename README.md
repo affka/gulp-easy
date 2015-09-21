@@ -40,9 +40,7 @@ Also each task method (`js`, `less`, `files`, ..) have config argument for overw
 ```js
 require('gulp-easy')
     .config({
-        dest: './app/dest',
-        less: {
-        }
+        dest: './app/dest'
     })
     .less('less/index.less', 'public/app.css', {
         minifycss: {
@@ -51,7 +49,7 @@ require('gulp-easy')
     })
 ```
 
-Full default config:
+Default config (without methods configs):
 
 ```js
     {
@@ -59,15 +57,6 @@ Full default config:
         name: 'app', // default destination file name
         compress: null, // auto, `true` in production
         watch: null, // auto, `false` in production
-        js: { // config for `js()` method
-            browserify: {}, // browserify config
-            transforms: [stringify] // browserify transforms
-        },
-        less: { // config for `less()` method
-            minifycss: { // `gulp-minify-css` config
-                compatibility: 'ie9'
-            }
-        }
     }
 ```
 
@@ -99,3 +88,56 @@ require('gulp-easy')
     .less(['less/header.less', 'less/main.less'], 'style.css')
     .js('js/index.js', 'app/public/lib/main.js')
 ```
+
+## Methods api
+
+### js(src, dest, config)
+
+- `src`: string or array strings, glob format;
+- `dest`: (optional) string file name or path to destination (output) file;
+- `config`: (optional) custom configuration object. Default configuration is:
+
+```js
+{
+    browserify: {}, // browserify config
+    uglify: {}, // uglify config
+    gzip: {}, // gzip config
+    transforms: [stringify] // browserify transforms
+}
+```
+
+Method do:
+- compile common js code with `browserify` and it `transforms`
+- write sourcemap, when `compress` is disable
+- compress by `uglify`, when `compress` is enable
+- create gzip file, when `compress` is enable
+
+### less(src, dest, config)
+
+- `src`: string or array strings, glob format;
+- `dest`: (optional) string file name or path to destination (output) file;
+- `config`: (optional) custom configuration object. Default configuration is:
+
+Method do:
+- process less to css
+- concat files to one
+- minify by `minifycss` module, when `compress` is enable
+- write sourcemap, when `compress` is disable
+- create gzip file, when `compress` is enable
+
+```js
+{
+    gzip: {}, // gzip config
+    minifycss: { // `gulp-minify-css` config
+        compatibility: 'ie9'
+    }
+}
+```
+
+### files(src, dest)
+
+- `src`: string or array strings, glob format;
+- `dest`: (optional) string file name or path to destination (output) file;
+
+Method do:
+- copy source files to destination folder

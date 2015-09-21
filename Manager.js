@@ -30,6 +30,11 @@ export default class Manager {
         this._gulp = g || gulp;
         this._gulp.task('default', this._tasks);
         this._gulp.task('production', this._tasks);
+
+        // Do not exit on exceptions
+        if (!this._isProduction) {
+            process.on('uncaughtException', console.error.bind(console));
+        }
     }
 
     /**
