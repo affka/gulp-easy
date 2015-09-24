@@ -1,12 +1,12 @@
 {
   "name": "gulp-easy",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Npm package for fast and easy compile js, less and other files with gulp.",
-  "main": "index-es5.js",
+  "main": "src-es5-build.js",
   "author": "Vladimir Kozhin <affka@affka.ru>",
   "scripts": {
     "test": "nodeunit tests/unit",
-    "es6": "node node_modules/watchify/bin/cmd.js index.js -t babelify -o index-es5.js"
+    "es6": "babel src --out-dir src-es5-build -i node_modules"
   },
   "repository": {
     "type": "git",
