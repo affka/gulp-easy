@@ -23,7 +23,7 @@ node $SOURCE_DIR/node_modules/gulp/bin/gulp.js --gulpfile $SOURCE_DIR/gulpfile.j
 Configuration in `gulp-easy` is optional, but you can set in through `config()` method:
 
 ```js
-require('gulp-easy')
+require('gulp-easy')(require('gulp'))
     .config({
         dest: './app/dest',
         less: {
@@ -38,7 +38,7 @@ require('gulp-easy')
 Also each task method (`js`, `less`, `files`, ..) have config argument for overwrite config:
 
 ```js
-require('gulp-easy')
+require('gulp-easy')(require('gulp'))
     .config({
         dest: './app/dest'
     })
@@ -69,7 +69,7 @@ The task performs:
 - Copy all files from folder `images` (recursive) to folder `public/images`.
 
 ```js
-require('gulp-easy')
+require('gulp-easy')(require('gulp'))
     .less('less/index.less')
     .js('js/*.js')
     .files('images/**/*', 'public/images/')
@@ -82,7 +82,7 @@ The task performs:
 - Run custom task for copy all files from folder `images` to folder `public/images2`.
 
 ```js
-require('gulp-easy')
+require('gulp-easy')(require('gulp'))
     .config({
         dest: 'app/public'
     })

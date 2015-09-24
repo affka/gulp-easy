@@ -1,3 +1,5 @@
 import Manager from './Manager';
 
-export default new Manager();
+export default function(gulp) {
+    return new Manager(gulp);
+};

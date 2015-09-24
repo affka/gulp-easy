@@ -46,6 +46,10 @@ export default class Manager {
      * @returns {self}
      */
     config(config) {
+        if (config.gulp) {
+            this._gulp = config.gulp;
+        }
+
         _.merge(this._config, config);
         return this;
     }

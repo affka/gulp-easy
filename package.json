@@ -1,6 +1,6 @@
 {
   "name": "gulp-easy",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Npm package for fast and easy compile js, less and other files with gulp.",
   "main": "src-es5-build/index.js",
   "author": "Vladimir Kozhin <affka@affka.ru>",
