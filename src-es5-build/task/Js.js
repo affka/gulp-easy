@@ -92,7 +92,11 @@ var Js = (function (_Base) {
 
             // Transforms
             _lodash2['default'].each(this.config.transforms, (function (transform) {
-                this._browserify = this._browserify.transform(transform());
+                if (transform === _stringify2['default']) {
+                    this._browserify = this._browserify.transform((0, _stringify2['default'])(['.html', '.htm', '.tmpl', '.tpl', '.hbs', '.ejs']));
+                } else {
+                    this._browserify = this._browserify.transform(transform());
+                }
             }).bind(this));
         }
     }, {

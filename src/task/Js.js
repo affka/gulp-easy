@@ -36,7 +36,11 @@ export default class Js extends Base {
 
         // Transforms
         _.each(this.config.transforms, function(transform) {
-            this._browserify = this._browserify.transform(transform());
+            if (transform === stringify) {
+                this._browserify = this._browserify.transform(stringify(['.html', '.htm', '.tmpl', '.tpl', '.hbs', '.ejs']));
+            } else {
+                this._browserify = this._browserify.transform(transform());
+            }
         }.bind(this));
     }
 

@@ -75,10 +75,11 @@ require('gulp-easy')(require('gulp'))
     .files('images/**/*', 'public/images/')
 ```
 
-Normal gulp file without defaults.
+Normal gulp file without defaults. You can many call api methods for create tasks.
 The task performs:
 - Concat and compile less files `less/header.less`, `less/header.less` to css `app/public/style.css`. Destination folder specified in config.
-- Compile as common js file `js/index.js` to file `app/public/lib/main.js`.
+- Compile as common js file `js/app1/index.js` to file `app/public/lib/main.js`.
+- Compile as common js file `js/app2/index.js` to file `app/public/lib/main-two.js`.
 - Run custom task for copy all files from folder `images` to folder `public/images2`.
 
 ```js
@@ -87,7 +88,8 @@ require('gulp-easy')(require('gulp'))
         dest: 'app/public'
     })
     .less(['less/header.less', 'less/main.less'], 'style.css')
-    .js('js/index.js', 'app/public/lib/main.js')
+    .js('js/app1/index.js', 'app/public/lib/main.js')
+    .js('js/app2/index.js', 'app/public/lib/main-two.js')
     .task(function(gulp, taskName, isCompress, isWatch) {
         gulp.src(['images/*']).pipe(gulp.dest('public/images2/'));
     }, function(gulp, taskName, isCompress) {
