@@ -56,7 +56,6 @@ export default class Js extends Base {
 
     _bundle() {
         return this._browserify.bundle()
-            .on('error', gutil.log.bind(gutil, 'Browserify Error'))
             .pipe(source(this.dest.name + '.js'))
             .pipe(plumber())
             .pipe(buffer())

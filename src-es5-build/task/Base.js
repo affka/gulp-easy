@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -15,15 +11,12 @@ var _through2 = require('through2');
 var _through22 = _interopRequireDefault(_through2);
 
 var Base = (function () {
-  _createClass(Base, null, [{
-    key: '_noop',
-    value: function _noop() {
-      return _through22['default'].obj(function (file, enc, cb) {
-        this.push(file);
-        cb();
-      });
-    }
-  }]);
+  Base._noop = function _noop() {
+    return _through22['default'].obj(function (file, enc, cb) {
+      this.push(file);
+      cb();
+    });
+  };
 
   function Base(gulp, manager, name) {
     _classCallCheck(this, Base);
@@ -59,23 +52,17 @@ var Base = (function () {
     this.config = {};
   }
 
-  _createClass(Base, [{
-    key: 'init',
-    value: function init() {}
-  }, {
-    key: 'run',
-    value: function run() {}
-  }, {
-    key: 'isWatch',
-    value: function isWatch() {
-      return this.manager.isWatch();
-    }
-  }, {
-    key: 'isCompress',
-    value: function isCompress() {
-      return this.manager.isCompress();
-    }
-  }]);
+  Base.prototype.init = function init() {};
+
+  Base.prototype.run = function run() {};
+
+  Base.prototype.isWatch = function isWatch() {
+    return this.manager.isWatch();
+  };
+
+  Base.prototype.isCompress = function isCompress() {
+    return this.manager.isCompress();
+  };
 
   return Base;
 })();

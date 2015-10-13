@@ -1,12 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
-    value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+exports.__esModule = true;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -68,7 +62,7 @@ var Js = (function (_Base) {
     function Js(manager, name) {
         _classCallCheck(this, Js);
 
-        _get(Object.getPrototypeOf(Js.prototype), 'constructor', this).call(this, manager, name);
+        _Base.call(this, manager, name);
 
         this.config = {
             browserify: {},
@@ -78,45 +72,39 @@ var Js = (function (_Base) {
         this._browserify = null;
     }
 
-    _createClass(Js, [{
-        key: 'init',
-        value: function init() {
-            this._browserify = (0, _browserify2['default'])(_lodash2['default'].merge(_watchify2['default'].args, this.config.browserify, {
-                entries: this.src
-            }));
-            if (this.isWatch()) {
-                this._browserify = (0, _watchify2['default'])(this._browserify);
+    Js.prototype.init = function init() {
+        this._browserify = _browserify2['default'](_lodash2['default'].merge(_watchify2['default'].args, this.config.browserify, {
+            entries: this.src
+        }));
+        if (this.isWatch()) {
+            this._browserify = _watchify2['default'](this._browserify);
+        }
+
+        this._browserify.on('log', _gulpUtil2['default'].log);
+
+        // Transforms
+        _lodash2['default'].each(this.config.transforms, (function (transform) {
+            if (transform === _stringify2['default']) {
+                this._browserify = this._browserify.transform(_stringify2['default'](['.html', '.htm', '.tmpl', '.tpl', '.hbs', '.ejs']));
+            } else {
+                this._browserify = this._browserify.transform(transform());
             }
+        }).bind(this));
+    };
 
-            this._browserify.on('log', _gulpUtil2['default'].log);
+    Js.prototype.run = function run() {
+        this._bundle();
 
-            // Transforms
-            _lodash2['default'].each(this.config.transforms, (function (transform) {
-                if (transform === _stringify2['default']) {
-                    this._browserify = this._browserify.transform((0, _stringify2['default'])(['.html', '.htm', '.tmpl', '.tpl', '.hbs', '.ejs']));
-                } else {
-                    this._browserify = this._browserify.transform(transform());
-                }
-            }).bind(this));
-        }
-    }, {
-        key: 'run',
-        value: function run() {
-            this._bundle();
+        // @todo clean gzip, if compress is false
+    };
 
-            // @todo clean gzip, if compress is false
-        }
-    }, {
-        key: 'watch',
-        value: function watch() {
-            this._browserify.on('update', this._bundle.bind(this));
-        }
-    }, {
-        key: '_bundle',
-        value: function _bundle() {
-            return this._browserify.bundle().on('error', _gulpUtil2['default'].log.bind(_gulpUtil2['default'], 'Browserify Error')).pipe((0, _vinylSourceStream2['default'])(this.dest.name + '.js')).pipe((0, _gulpPlumber2['default'])()).pipe((0, _vinylBuffer2['default'])()).pipe(!this.isCompress() ? _gulpSourcemaps2['default'].init() : this.constructor._noop()).pipe(this.isCompress() ? (0, _gulpUglify2['default'])(this.config.uglify) : this.constructor._noop()).pipe(!this.isCompress() ? _gulpSourcemaps2['default'].write() : this.constructor._noop()).pipe(this.gulp.dest(this.dest.dir)).pipe(this.isCompress() ? (0, _gulpGzip2['default'])(this.config.gzip) : this.constructor._noop()).pipe(this.isCompress() ? this.gulp.dest(this.dest.dir) : this.constructor._noop());
-        }
-    }]);
+    Js.prototype.watch = function watch() {
+        this._browserify.on('update', this._bundle.bind(this));
+    };
+
+    Js.prototype._bundle = function _bundle() {
+        return this._browserify.bundle().pipe(_vinylSourceStream2['default'](this.dest.name + '.js')).pipe(_gulpPlumber2['default']()).pipe(_vinylBuffer2['default']()).pipe(!this.isCompress() ? _gulpSourcemaps2['default'].init() : this.constructor._noop()).pipe(this.isCompress() ? _gulpUglify2['default'](this.config.uglify) : this.constructor._noop()).pipe(!this.isCompress() ? _gulpSourcemaps2['default'].write() : this.constructor._noop()).pipe(this.gulp.dest(this.dest.dir)).pipe(this.isCompress() ? _gulpGzip2['default'](this.config.gzip) : this.constructor._noop()).pipe(this.isCompress() ? this.gulp.dest(this.dest.dir) : this.constructor._noop());
+    };
 
     return Js;
 })(_Base3['default']);

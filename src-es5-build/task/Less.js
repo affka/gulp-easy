@@ -1,12 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
-    value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+exports.__esModule = true;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -56,7 +50,7 @@ var Less = (function (_Base) {
     function Less(manager, name) {
         _classCallCheck(this, Less);
 
-        _get(Object.getPrototypeOf(Less.prototype), 'constructor', this).call(this, manager, name);
+        _Base.call(this, manager, name);
 
         this.config = {
             gzip: {},
@@ -66,34 +60,29 @@ var Less = (function (_Base) {
         };
     }
 
-    _createClass(Less, [{
-        key: 'init',
-        value: function init() {
-            this.config = _lodash2['default'].merge({
-                minifycss: {
-                    target: this.dest.dir,
-                    relativeTo: this.dest.dir,
-                    keepBreaks: !this.isCompress()
-                }
-            }, this.config);
-        }
-    }, {
-        key: 'run',
-        value: function run() {
-            this.gulp.src(this.src).pipe((0, _gulpPlumber2['default'])()).pipe(!this.isCompress() ? _gulpSourcemaps2['default'].init() : this.constructor._noop()).pipe((0, _gulpLess2['default'])()).pipe((0, _gulpConcat2['default'])(this.dest.name + '.css')).pipe((0, _gulpMinifyCss2['default'])(this.config.minifycss)).pipe(!this.isCompress() ? _gulpSourcemaps2['default'].write() : this.constructor._noop()).pipe(this.gulp.dest(this.dest.dir)).pipe(this.isCompress() ? (0, _gulpGzip2['default'])(this.config.gzip) : this.constructor._noop()).pipe(this.isCompress() ? this.gulp.dest(this.dest.dir) : this.constructor._noop());
+    Less.prototype.init = function init() {
+        this.config = _lodash2['default'].merge({
+            minifycss: {
+                target: this.dest.dir,
+                relativeTo: this.dest.dir,
+                keepBreaks: !this.isCompress()
+            }
+        }, this.config);
+    };
 
-            // @todo clean gzip, if compress is false
-        }
-    }, {
-        key: 'watch',
-        value: function watch() {
-            (0, _gulpWatchLess2['default'])(this.src, {}, (function () {
-                this.gulp.start(this.name);
-            }).bind(this));
+    Less.prototype.run = function run() {
+        this.gulp.src(this.src).pipe(_gulpPlumber2['default']()).pipe(!this.isCompress() ? _gulpSourcemaps2['default'].init() : this.constructor._noop()).pipe(_gulpLess2['default']()).pipe(_gulpConcat2['default'](this.dest.name + '.css')).pipe(_gulpMinifyCss2['default'](this.config.minifycss)).pipe(!this.isCompress() ? _gulpSourcemaps2['default'].write() : this.constructor._noop()).pipe(this.gulp.dest(this.dest.dir)).pipe(this.isCompress() ? _gulpGzip2['default'](this.config.gzip) : this.constructor._noop()).pipe(this.isCompress() ? this.gulp.dest(this.dest.dir) : this.constructor._noop());
 
-            this.gulp.watch(this.src, [this.name]);
-        }
-    }]);
+        // @todo clean gzip, if compress is false
+    };
+
+    Less.prototype.watch = function watch() {
+        _gulpWatchLess2['default'](this.src, {}, (function () {
+            this.gulp.start(this.name);
+        }).bind(this));
+
+        this.gulp.watch(this.src, [this.name]);
+    };
 
     return Less;
 })(_Base3['default']);
