@@ -103,7 +103,7 @@ var Js = (function (_Base) {
     };
 
     Js.prototype._bundle = function _bundle() {
-        return this._browserify.bundle().pipe(_vinylSourceStream2['default'](this.dest.name + '.js')).pipe(_gulpPlumber2['default']()).pipe(_vinylBuffer2['default']()).pipe(!this.isCompress() ? _gulpSourcemaps2['default'].init() : this.constructor._noop()).pipe(this.isCompress() ? _gulpUglify2['default'](this.config.uglify) : this.constructor._noop()).pipe(!this.isCompress() ? _gulpSourcemaps2['default'].write() : this.constructor._noop()).pipe(this.gulp.dest(this.dest.dir)).pipe(this.isCompress() ? _gulpGzip2['default'](this.config.gzip) : this.constructor._noop()).pipe(this.isCompress() ? this.gulp.dest(this.dest.dir) : this.constructor._noop());
+        return this._browserify.bundle().on('error', _gulpUtil2['default'].log.bind(_gulpUtil2['default'], 'Browserify Error')).pipe(_vinylSourceStream2['default'](this.dest.name + '.js')).pipe(_gulpPlumber2['default']()).pipe(_vinylBuffer2['default']()).pipe(!this.isCompress() ? _gulpSourcemaps2['default'].init() : this.constructor._noop()).pipe(this.isCompress() ? _gulpUglify2['default'](this.config.uglify) : this.constructor._noop()).pipe(!this.isCompress() ? _gulpSourcemaps2['default'].write() : this.constructor._noop()).pipe(this.gulp.dest(this.dest.dir)).pipe(this.isCompress() ? _gulpGzip2['default'](this.config.gzip) : this.constructor._noop()).pipe(this.isCompress() ? this.gulp.dest(this.dest.dir) : this.constructor._noop());
     };
 
     return Js;
