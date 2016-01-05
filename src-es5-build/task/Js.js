@@ -52,6 +52,14 @@ var _gulpGzip = require('gulp-gzip');
 
 var _gulpGzip2 = _interopRequireDefault(_gulpGzip);
 
+var _babelify = require('babelify');
+
+var _babelify2 = _interopRequireDefault(_babelify);
+
+var _babelPresetReact = require('babel-preset-react');
+
+var _babelPresetReact2 = _interopRequireDefault(_babelPresetReact);
+
 var _Base2 = require('./Base');
 
 var _Base3 = _interopRequireDefault(_Base2);
@@ -67,7 +75,8 @@ var Js = (function (_Base) {
         this.config = {
             browserify: {},
             uglify: {},
-            transforms: [_stringify2['default']]
+            transforms: [_stringify2['default']],
+            jsx: false
         };
         this._browserify = null;
     }
@@ -82,10 +91,21 @@ var Js = (function (_Base) {
 
         this._browserify.on('log', _gulpUtil2['default'].log);
 
+        if (this.config.jsx) {
+            this.config.transforms.push([_babelify2['default'].configure({
+                presets: [_babelPresetReact2['default']]
+            }), {
+                global: true,
+                extensions: ['.jsx']
+            }]);
+        }
+
         // Transforms
         _lodash2['default'].each(this.config.transforms, (function (transform) {
             if (transform === _stringify2['default']) {
                 this._browserify = this._browserify.transform(_stringify2['default'](['.html', '.htm', '.tmpl', '.tpl', '.hbs', '.ejs']));
+            } else if (_lodash2['default'].isArray(transform)) {
+                this._browserify = this._browserify.transform.apply(this._browserify, transform);
             } else {
                 this._browserify = this._browserify.transform(transform());
             }

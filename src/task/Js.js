@@ -9,6 +9,8 @@ import buffer from 'vinyl-buffer';
 import sourcemaps from 'gulp-sourcemaps';
 import uglify from 'gulp-uglify';
 import gzip from 'gulp-gzip';
+import babelify from 'babelify';
+import babelpresetreact from 'babel-preset-react';
 import Base from './Base';
 
 export default class Js extends Base {
@@ -19,7 +21,8 @@ export default class Js extends Base {
         this.config = {
             browserify: {},
             uglify: {},
-            transforms: [stringify]
+            transforms: [stringify],
+            jsx: false
         };
         this._browserify = null;
     }
@@ -34,10 +37,26 @@ export default class Js extends Base {
 
         this._browserify.on('log', gutil.log);
 
+        if (this.config.jsx) {
+            this.config.transforms.push([
+                babelify.configure({
+                    presets: [
+                        babelpresetreact
+                    ]
+                }),
+                {
+                    global: true,
+                    extensions: ['.jsx']
+                }
+            ]);
+        }
+
         // Transforms
         _.each(this.config.transforms, function(transform) {
             if (transform === stringify) {
                 this._browserify = this._browserify.transform(stringify(['.html', '.htm', '.tmpl', '.tpl', '.hbs', '.ejs']));
+            } else if (_.isArray(transform)) {
+                this._browserify = this._browserify.transform.apply(this._browserify, transform);
             } else {
                 this._browserify = this._browserify.transform(transform());
             }

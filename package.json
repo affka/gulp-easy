@@ -1,6 +1,6 @@
 {
   "name": "gulp-easy",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Npm package for fast and easy compile js, less and other files with gulp.",
   "main": "src-es5-build/index.js",
   "author": "Vladimir Kozhin <affka@affka.ru>",
@@ -23,8 +23,9 @@
     "url": "https://github.com/affka/gulp-easy/issues"
   },
   "dependencies": {
-    "babel": "^5.8.23",
-    "babelify": "^6.3.0",
+    "babel": "^5.8.34",
+    "babel-preset-react": "^6.3.13",
+    "babelify": "^7.2.0",
     "browserify": "^11.1.0",
     "glob": "^5.0.14",
     "gulp-concat": "^2.6.0",
