@@ -40,6 +40,7 @@ export default class Js extends Base {
         if (this.config.jsx) {
             this.config.transforms.push([
                 babelify.configure({
+                    compact: false,
                     presets: [
                         babelpresetreact
                     ]
