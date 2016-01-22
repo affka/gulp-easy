@@ -93,6 +93,7 @@ var Js = (function (_Base) {
 
         if (this.config.jsx) {
             this.config.transforms.push([_babelify2['default'].configure({
+                compact: false,
                 presets: [_babelPresetReact2['default']]
             }), {
                 global: true,
