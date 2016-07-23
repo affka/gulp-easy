@@ -1,21 +1,20 @@
-import _ from 'lodash';
-import glob from 'glob';
-import gulp from 'gulp';
-import yargs from 'yargs';
+var _ = require('lodash');
+var glob = require('glob');
+var yargs = require('yargs');
 
 // Tasks
-import Files from './task/Files';
-import Less from './task/Less';
-import Js from './task/Js';
-import Inline from './task/Inline';
+var Files = require('./task/Files');
+var Less = require('./task/Less');
+var Js = require('./task/Js');
+var Inline = require('./task/Inline');
 
-export default class Manager {
+class Manager {
 
     /**
      *
-     * @param g
+     * @param gulp
      */
-    constructor(g) {
+    constructor(gulp) {
          this._config = {
             dest: 'public',
             name: 'app',
@@ -27,8 +26,9 @@ export default class Manager {
         this._nameIndexes = {};
         this._tasks = [];
         this._isProduction = !!yargs.argv.production || yargs.argv._.indexOf('production') !== -1;
+        this._isShowTasks = !!yargs.argv.tasks;
 
-        this._gulp = g || gulp;
+        this._gulp = gulp || require('gulp');
         this._gulp.task('default', this._tasks);
         this._gulp.task('production', this._tasks);
 
@@ -55,11 +55,11 @@ export default class Manager {
     }
 
     isWatch() {
-        return this._config.watch !== null ? this._config.watch : !this._isProduction;
+        return this._config.watch !== null ? this._config.watch : !this._isProduction && !this._isShowTasks;
     }
 
     isCompress() {
-        return this._config.compress !== null ? this._config.compress : this._isProduction;
+        return this._config.compress !== null ? this._config.compress : this._isProduction && !this._isShowTasks;
     }
 
     /**
@@ -210,3 +210,5 @@ export default class Manager {
     }
 
 }
+
+module.exports = Manager;

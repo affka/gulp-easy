@@ -1,7 +1,7 @@
-import _ from 'lodash';
-import Base from './Base';
+var _ = require('lodash');
+var Base = require('./Base');
 
-export default class Inline extends Base {
+class Inline extends Base {
 
     constructor(manager, name) {
         super(manager, name);
@@ -23,3 +23,5 @@ export default class Inline extends Base {
     }
     
 }
+
+module.exports = Inline;

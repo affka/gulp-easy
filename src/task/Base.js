@@ -1,6 +1,6 @@
-import through from 'through2';
+var through = require('through2');
 
-export default class Base {
+class Base {
 
     static _noop () {
         return through.obj(function(file, enc, cb) {
@@ -49,6 +49,10 @@ export default class Base {
     run() {
     }
 
+    watch() {
+
+    }
+
     isWatch() {
         return this.manager.isWatch();
     }
@@ -57,3 +61,5 @@ export default class Base {
         return this.manager.isCompress();
     }
 }
+
+module.exports = Base;

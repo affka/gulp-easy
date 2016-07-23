@@ -1,19 +1,19 @@
-import gutil from 'gulp-util';
-import stringify from 'stringify';
-import watchify from 'watchify';
-import browserify from 'browserify';
-import plumber from 'gulp-plumber';
-import _ from 'lodash';
-import source from 'vinyl-source-stream';
-import buffer from 'vinyl-buffer';
-import sourcemaps from 'gulp-sourcemaps';
-import uglify from 'gulp-uglify';
-import gzip from 'gulp-gzip';
-import babelify from 'babelify';
-import babelpresetreact from 'babel-preset-react';
-import Base from './Base';
+var gutil = require('gulp-util');
+var stringify = require('stringify');
+var watchify = require('watchify');
+var browserify = require('browserify');
+var plumber = require('gulp-plumber');
+var _ = require('lodash');
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
+var sourcemaps = require('gulp-sourcemaps');
+var uglify = require('gulp-uglify');
+var gzip = require('gulp-gzip');
+var babelify = require('babelify');
+var babelpresetreact = require('babel-preset-react');
+var Base = require('./Base');
 
-export default class Js extends Base {
+class Js extends Base {
 
     constructor(manager, name) {
         super(manager, name);
@@ -88,3 +88,5 @@ export default class Js extends Base {
             .pipe(this.isCompress() ? this.gulp.dest(this.dest.dir) : this.constructor._noop());
     }
 }
+
+module.exports = Js;

@@ -1,14 +1,14 @@
-import plumber from 'gulp-plumber';
-import less from 'gulp-less';
-import concat from 'gulp-concat';
-import _ from 'lodash';
-import minifycss from 'gulp-minify-css';
-import watchless from 'gulp-watch-less';
-import sourcemaps from 'gulp-sourcemaps';
-import gzip from 'gulp-gzip';
-import Base from './Base';
+var plumber = require('gulp-plumber');
+var less = require('gulp-less');
+var concat = require('gulp-concat');
+var _ = require('lodash');
+var minifycss = require('gulp-minify-css');
+var sourcemaps = require('gulp-sourcemaps');
+var gzip = require('gulp-gzip');
+var watchLess = require('gulp-watch-less2');
+var Base = require('./Base');
 
-export default class Less extends Base {
+class Less extends Base {
 
     constructor(manager, name) {
         super(manager, name);
@@ -27,15 +27,25 @@ export default class Less extends Base {
                 target: this.dest.dir,
                 relativeTo: this.dest.dir,
                 keepBreaks: !this.isCompress()
+            },
+            less: {
             }
         }, this.config);
     }
 
     run() {
-        this.gulp.src(this.src)
-            .pipe(plumber())
+        var stream = this.gulp.src(this.src)
+            .pipe(plumber());
+
+        if (this.isWatch()) {
+            _.each(_.toArray(this.src), srcItem => {
+                stream = stream.pipe(watchLess(srcItem));
+            });
+        }
+
+        stream
             .pipe(!this.isCompress() ? sourcemaps.init() : this.constructor._noop())
-            .pipe(less())
+            .pipe(less(this.config.less))
             .pipe(concat(this.dest.name + '.css'))
             .pipe(minifycss(this.config.minifycss))
             .pipe(!this.isCompress() ? sourcemaps.write() : this.constructor._noop())
@@ -46,12 +56,6 @@ export default class Less extends Base {
         // @todo clean gzip, if compress is false
     }
 
-    watch() {
-        watchless(this.src, {}, function() {
-            this.gulp.start(this.name);
-        }.bind(this));
-
-        this.gulp.watch(this.src, [this.name]);
-    }
-    
 }
+
+module.exports = Less;

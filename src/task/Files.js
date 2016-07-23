@@ -1,6 +1,6 @@
-import Base from './Base';
+var Base = require('./Base');
 
-export default class Files extends Base {
+class Files extends Base {
 
     run() {
         this.gulp.src(this.src).pipe(this.gulp.dest(this.dest.dir));
@@ -11,3 +11,5 @@ export default class Files extends Base {
     }
     
 }
+
+module.exports = Files;
