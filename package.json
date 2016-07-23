@@ -22,6 +22,8 @@
     "url": "https://github.com/affka/gulp-easy/issues"
   },
   "dependencies": {
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-es2016": "^6.11.3",
     "babel-preset-react": "*",
     "babelify": "*",
     "browserify": "^13.0.1",

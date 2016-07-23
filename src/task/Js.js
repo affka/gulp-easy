@@ -11,6 +11,8 @@ var uglify = require('gulp-uglify');
 var gzip = require('gulp-gzip');
 var babelify = require('babelify');
 var babelpresetreact = require('babel-preset-react');
+var babelpresetes2015 = require('babel-preset-es2015');
+var babelpresetes2016 = require('babel-preset-es2016');
 var Base = require('./Base');
 
 class Js extends Base {
@@ -22,7 +24,9 @@ class Js extends Base {
             browserify: {},
             uglify: {},
             transforms: [stringify],
-            jsx: false
+            jsx: false,
+            es2015: true,
+            es2016: false
         };
         this._browserify = null;
     }
@@ -37,13 +41,22 @@ class Js extends Base {
 
         this._browserify.on('log', gutil.log);
 
+        // Presets
+        var presets = [];
         if (this.config.jsx) {
+            presets.push(babelpresetreact);
+        }
+        if (this.config.es2015) {
+            presets.push(babelpresetes2015);
+        }
+        if (this.config.es2016) {
+            presets.push(babelpresetes2016);
+        }
+        if (presets.length > 0) {
             this.config.transforms.push([
                 babelify.configure({
                     compact: false,
-                    presets: [
-                        babelpresetreact
-                    ]
+                    presets: presets
                 }),
                 {
                     global: true,

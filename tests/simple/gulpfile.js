@@ -1,6 +1,9 @@
 require('../../src/index')(require('gulp'))
     .less('less/index.less')
-    .js('js/**/*.js', 'public/js/main.js')
+    .js('js/**/*.js', 'public/js/main.js', {
+        jsx: true,
+        es6: true
+    })
     .files('images/**/*', 'public/images/')
     .task((gulp, taskName, isCompress, isWatch) => {
         gulp.src(['images/*']).pipe(gulp.dest('public/images2/'));
