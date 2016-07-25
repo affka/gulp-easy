@@ -47,6 +47,14 @@ class Js extends Base {
             presets.push(babelpresetreact);
         }
         if (this.config.es2015) {
+            _.each(babelpresetes2015.plugins, (preset, i) => {
+                if (preset === require("babel-plugin-transform-es2015-modules-commonjs")) {
+                    babelpresetes2015.plugins[i] = [
+                        require("babel-plugin-transform-es2015-modules-commonjs"),
+                        {allowTopLevelThis: true}
+                    ];
+                }
+            });
             presets.push(babelpresetes2015);
         }
         if (this.config.es2016) {
