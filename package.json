@@ -1,6 +1,6 @@
 {
   "name": "gulp-easy",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Npm package for fast and easy compile js, less and other files with gulp.",
   "main": "src/index.js",
   "author": "Vladimir Kozhin <affka@affka.ru>",
@@ -37,7 +37,6 @@
     "gulp-uglify": "*",
     "gulp-util": "*",
     "gulp-watch-less": "*",
-    "gulp-watch-less2": "^2.0.4",
     "lodash": "^4.13.1",
     "stringify": "^5.1.0",
     "through2": "*",

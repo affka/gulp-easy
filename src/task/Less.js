@@ -5,7 +5,7 @@ var _ = require('lodash');
 var minifycss = require('gulp-minify-css');
 var sourcemaps = require('gulp-sourcemaps');
 var gzip = require('gulp-gzip');
-var watchLess = require('gulp-watch-less2');
+var watchLess = require('gulp-watch-less');
 var Base = require('./Base');
 
 class Less extends Base {
@@ -34,16 +34,8 @@ class Less extends Base {
     }
 
     run() {
-        var stream = this.gulp.src(this.src)
-            .pipe(plumber());
-
-        if (this.isWatch()) {
-            _.each(_.toArray(this.src), srcItem => {
-                stream = stream.pipe(watchLess(srcItem));
-            });
-        }
-
-        stream
+        this.gulp.src(this.src)
+            .pipe(plumber())
             .pipe(!this.isCompress() ? sourcemaps.init() : this.constructor._noop())
             .pipe(less(this.config.less))
             .pipe(concat(this.dest.name + '.css'))
@@ -54,6 +46,14 @@ class Less extends Base {
             .pipe(this.isCompress() ? this.gulp.dest(this.dest.dir) : this.constructor._noop());
 
         // @todo clean gzip, if compress is false
+    }
+
+    watch() {
+        _.each(_.toArray(this.src), srcItem => {
+            watchLess(srcItem, {less: this.config.less, verbose: true}, () => {
+                this.gulp.start(this.name)
+            });
+        });
     }
 
 }

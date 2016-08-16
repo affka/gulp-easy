@@ -8,3 +8,5 @@ var qwe = (q, w, e) => {
 var asd = () => {
 
 };
+
+var zzz = <div>aabba</div>;
