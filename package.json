@@ -1,6 +1,6 @@
 {
   "name": "gulp-easy",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Npm package for fast and easy compile js, less and other files with gulp.",
   "main": "src/index.js",
   "author": "Vladimir Kozhin <affka@affka.ru>",
@@ -46,3 +46,4 @@
     "yargs": "^4.8.1"
   }
 }
+[]

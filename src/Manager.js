@@ -25,8 +25,13 @@ class Manager {
         this._names = [];
         this._nameIndexes = {};
         this._tasks = [];
-        this._isProduction = !!yargs.argv.production || yargs.argv._.indexOf('production') !== -1;
+        this._isProduction = process.env.NODE_ENV === 'production' || !!yargs.argv.production || yargs.argv._.indexOf('production') !== -1;
         this._isShowTasks = !!yargs.argv.tasks;
+
+        // Set production move (for example, to react build)
+        if (this._isProduction) {
+            process.env.NODE_ENV = 'production';
+        }
 
         this._gulp = gulp || require('gulp');
         this._gulp.task('default', this._tasks);
