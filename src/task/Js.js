@@ -12,6 +12,7 @@ var gzip = require('gulp-gzip');
 var babelify = require('babelify');
 var babelpresetreact = require('babel-preset-react');
 var babelpresetes2015 = require('babel-preset-es2015');
+var babelpresetes2015PresetCommonJs = require("babel-plugin-transform-es2015-modules-commonjs");
 var babelpresetes2016 = require('babel-preset-es2016');
 var Base = require('./Base');
 
@@ -48,10 +49,10 @@ class Js extends Base {
         }
         if (this.config.es2015) {
             _.each(babelpresetes2015.plugins, (preset, i) => {
-                if (preset === require("babel-plugin-transform-es2015-modules-commonjs")) {
+                if (preset === babelpresetes2015PresetCommonJs || (_.isArray(preset) && preset[0] === babelpresetes2015PresetCommonJs)) {
                     babelpresetes2015.plugins[i] = [
                         require("babel-plugin-transform-es2015-modules-commonjs"),
-                        {allowTopLevelThis: true}
+                        _.extend(_.isArray(preset) ? preset[1] : {}, {allowTopLevelThis: true})
                     ];
                 }
             });
