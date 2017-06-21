@@ -33,7 +33,7 @@ class Js extends Base {
     }
 
     init() {
-        this._browserify = browserify(_.merge(watchify.args, this.config.browserify, {
+        this._browserify = browserify(_.merge({}, watchify.args, this.config.browserify, {
             entries: this.src
         }));
         if (this.isWatch()) {
